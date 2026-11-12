@@ -177,7 +177,75 @@ footer .age{display:inline-block;border:2px solid var(--down);color:var(--down);
       <div class="promo"><b>滾球不停</b><p>賠率每數秒更新，綠色上升、紅色下降。</p><span class="pill">即時</span></div>
     </div>
 
-    <div class="card chat-card">
+        <!-- Static info: plain HTML so the Comm100 AI Agent crawler can read it -->
+    <style>
+    .info{padding:16px;margin-top:16px}
+    .info h3{margin:0 0 4px;font-size:16px}
+    .info .note{margin:0 0 12px;color:var(--muted);font-size:12px}
+    .info .tbl{overflow-x:auto}
+    .info table{width:100%;border-collapse:collapse;font-size:13px;white-space:nowrap}
+    .info th,.info td{padding:8px;border-bottom:1px solid var(--line);text-align:left}
+    .info th{color:var(--muted);font-weight:600}
+    .info td.n{text-align:right;font-variant-numeric:tabular-nums}
+    .info ul{margin:0;padding-left:18px}
+    .info li{margin-bottom:4px}
+    .info details{border-bottom:1px solid var(--line);padding:10px 0}
+    .info summary{cursor:pointer;font-weight:600}
+    .info details p{margin:8px 0 0;color:var(--muted)}
+    </style>
+
+    <section class="card info" id="match-guide">
+      <h3>賽事總覽與初始賠率</h3>
+      <p class="note">以下為各場賽事的開盤（初始）賠率，採歐洲盤（含本金）。滾球賽事的賠率在頁面上每數秒變動，實際以投注當下顯示為準。本平台為示範用途，所有隊伍與賽事皆為虛構。</p>
+      <div class="tbl">
+      <table>
+        <thead><tr><th>狀態</th><th>聯賽</th><th>主隊</th><th>客隊</th><th>時間／比數</th><th>主勝</th><th>和局</th><th>客勝</th></tr></thead>
+        <tbody>
+          <tr><td>滾球中</td><td>英格蘭超級聯賽（足球）</td><td>北港流星</td><td>東岸雷霆</td><td>第 63 分鐘，1 比 1</td><td class="n">2.45</td><td class="n">3.10</td><td class="n">2.85</td></tr>
+          <tr><td>滾球中</td><td>西班牙甲級聯賽（足球）</td><td>聖馬丁競技</td><td>白塔聯</td><td>第 28 分鐘，0 比 1</td><td class="n">3.60</td><td class="n">3.25</td><td class="n">2.05</td></tr>
+          <tr><td>滾球中</td><td>職業籃球聯賽（籃球）</td><td>灣區颶風</td><td>沙漠蒼鷹</td><td>第 3 節，78 比 74</td><td class="n">1.72</td><td class="n">無</td><td class="n">2.10</td></tr>
+          <tr><td>滾球中</td><td>ATP 巡迴賽（網球）</td><td>A. 洛倫佐</td><td>K. 霍夫曼</td><td>第 2 盤，盤數 1 比 0</td><td class="n">1.55</td><td class="n">無</td><td class="n">2.40</td></tr>
+          <tr><td>滾球中</td><td>英雄聯盟職業賽（電競）</td><td>Vortex 戰隊</td><td>Nightfall</td><td>第 3 局，局數 1 比 1</td><td class="n">1.95</td><td class="n">無</td><td class="n">1.85</td></tr>
+          <tr><td>即將開賽</td><td>英格蘭超級聯賽（足球）</td><td>紅堡城</td><td>河谷流浪者</td><td>今天 21:30</td><td class="n">1.88</td><td class="n">3.55</td><td class="n">4.20</td></tr>
+          <tr><td>即將開賽</td><td>義大利甲級聯賽（足球）</td><td>米蘭諾維</td><td>佛羅倫提諾</td><td>今天 23:45</td><td class="n">2.20</td><td class="n">3.15</td><td class="n">3.30</td></tr>
+          <tr><td>即將開賽</td><td>西班牙甲級聯賽（足球）</td><td>巴倫西亞港</td><td>高原競技</td><td>明天 02:00</td><td class="n">2.65</td><td class="n">3.00</td><td class="n">2.75</td></tr>
+          <tr><td>即將開賽</td><td>職業籃球聯賽（籃球）</td><td>北境狼群</td><td>港都海神</td><td>明天 08:00</td><td class="n">1.60</td><td class="n">無</td><td class="n">2.35</td></tr>
+          <tr><td>即將開賽</td><td>職業棒球大聯盟（棒球）</td><td>金門巨人</td><td>湖濱水手</td><td>明天 09:10</td><td class="n">1.80</td><td class="n">無</td><td class="n">2.00</td></tr>
+          <tr><td>即將開賽</td><td>英雄聯盟職業賽（電競）</td><td>Phoenix Rise</td><td>Ironclad</td><td>明天 18:00</td><td class="n">2.30</td><td class="n">無</td><td class="n">1.58</td></tr>
+          <tr><td>即將開賽</td><td>ATP 巡迴賽（網球）</td><td>M. 薩拉戈薩</td><td>T. 中村</td><td>明天 20:00</td><td class="n">2.05</td><td class="n">無</td><td class="n">1.75</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </section>
+
+    <section class="card info" id="odds-summary">
+      <h3>賠率重點整理（以初始賠率計）</h3>
+      <ul>
+        <li>全部賽事中賠率最高的選項：紅堡城 對 河谷流浪者（英格蘭超級聯賽，今天 21:30），客勝 河谷流浪者 4.20。</li>
+        <li>滾球中賠率最高的選項：聖馬丁競技 對 白塔聯（西班牙甲級聯賽），主勝 聖馬丁競技 3.60。</li>
+        <li>全部賽事中賠率最低（最被看好）的選項：A. 洛倫佐 對 K. 霍夫曼（ATP 巡迴賽），主勝 A. 洛倫佐 1.55。</li>
+        <li>和局賠率最高：紅堡城 對 河谷流浪者，和局 3.55。</li>
+        <li>目前共有 12 場賽事：滾球中 5 場、即將開賽 7 場；涵蓋足球、籃球、網球、電競、棒球五種運動。</li>
+        <li>籃球、網球、電競、棒球沒有和局選項，只有主勝與客勝。</li>
+      </ul>
+    </section>
+
+    <section class="card info" id="faq">
+      <h3>常見問題</h3>
+      <details><summary>這是真的博弈網站嗎？可以儲值或提款嗎？</summary><p>不是。NovaBet 是介面示範（Mock）專案，所有賽事、隊伍、賠率與餘額皆為虛構，不涉及真實金錢，無法儲值、提款或兌換任何獎品。</p></details>
+      <details><summary>示範餘額是多少？用完了怎麼辦？</summary><p>每位訪客一開始有 10,000 示範點數。點選頁面右上角的「重設」按鈕即可將餘額恢復為 10,000，並清除注單紀錄。示範餘額只存在你自己的瀏覽器中。</p></details>
+      <details><summary>如何下注？</summary><p>在賽事列表點選想要的賠率（主勝、和局或客勝），該選項就會加入右側的投注單（手機版為底部的「投注單」按鈕）。在投注單輸入金額後，按「確認下注（示範）」即可送出。每場比賽只能選一個選項。</p></details>
+      <details><summary>賠率怎麼看？什麼是歐洲盤？</summary><p>本平台使用歐洲盤（十進位賠率），賠率已包含本金。可贏金額 = 投注金額 × 賠率。例如投注 100、賠率 2.45，若猜中可拿回 245（含本金 100，淨贏 145）。</p></details>
+      <details><summary>什麼是單注？什麼是串關？</summary><p>單注是每個選項分別下注、分別結算。串關是把 2 場以上的選項合成一張注單，所有選項都猜中才算贏；串關賠率為各場賠率相乘，所以賠率較高。投注單選了 2 場以上時，可以切換「單注」或「串關」。</p></details>
+      <details><summary>串關加成怎麼算？</summary><p>串關 3 場以上，潛在獎金自動加成 10%。例如 3 場賠率分別為 2.00、1.80、2.10，串關賠率為 2.00 × 1.80 × 2.10 = 7.56，加成後為 8.316；投注 100 的潛在獎金約為 832。</p></details>
+      <details><summary>什麼是滾球？為什麼賠率一直變？</summary><p>滾球是指比賽進行中仍可下注。滾球賽事的賠率會依比賽狀況每數秒更新：綠色代表賠率上升，紅色代表賠率下降。足球比賽進行中也可能出現進球，比數會即時更新。</p></details>
+      <details><summary>注單多久結算？在哪裡查看？</summary><p>示範注單送出後約 15 秒會自動結算，結果依賠率隨機決定（賠率越低越容易贏）。可以在投注單上方的「我的注單」分頁查看所有注單，狀態分為待結算、贏、輸。</p></details>
+      <details><summary>投注金額有限制嗎？</summary><p>投注金額必須大於 0，且不能超過目前的示範餘額。串關可使用 +100、+500、+1,000、+5,000 快速加碼按鈕。</p></details>
+      <details><summary>有哪些優惠活動？</summary><p>新會員示範禮：體驗用虛擬點數 10,000，可隨時重設。串關加成：3 場以上串關，潛在獎金 +10%。滾球不停：賠率每數秒即時更新。</p></details>
+      <details><summary>未滿 18 歲可以使用嗎？</summary><p>未滿 18 歲禁止參與任何博弈。本平台僅為介面示範，請理性娛樂。</p></details>
+    </section>
+
+<div class="card chat-card">
       <b>需要協助？</b>
       <p>點擊下方或右下角的客服按鈕，與客服即時對話。</p>
       <!--Begin Comm100 Live Chat Code-->
