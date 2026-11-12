@@ -278,6 +278,7 @@
 
   /* ---------- report back + custom variables ---------- */
   var reportOn = store.get("nb_report", true);
+  reportOn = store.get("nb_report_v2", false); // chat reports are off by default: the AI may echo them back
   function chatReady(){ return window.Comm100API && typeof Comm100API.do==="function"; }
   function report(c, msg){
     if(!reportOn || c.via==="測試台" || c.via==="網址連結") return;
@@ -316,6 +317,10 @@
   function handle(text, via){
     text = clean(text);
     if(typeof text!=="string" || !fresh(via+text)) return;
+    // skip a command identical to one already handled in the last 2 minutes (stops AI echo loops)
+    var done = window.__nbDone || (window.__nbDone = {});
+    parseAll(text).filter(function(c){ var sig = c.op+JSON.stringify(c.args), t = Date.now(); if(done[sig] && t-done[sig]<120000){ logRaw("略過重複指令（2 分鐘內已處理）："+c.raw); return false; } done[sig] = t; return true; }).forEach(function(c){ c.via = via; enqueue(c); });
+    return;
     parseAll(text).forEach(function(c){ c.via = via; enqueue(c); });
   }
   var hooked = false;
@@ -364,6 +369,7 @@
   $("cmdIn").addEventListener("keydown", function(e){ if(e.key==="Enter") $("cmdRun").click(); });
   card.addEventListener("click", function(e){ var b=e.target.closest("button[data-ex]"); if(b){ $("cmdIn").value=b.dataset.ex; $("cmdIn").focus(); } });
   $("cmdReport").onchange = function(){ reportOn = this.checked; store.set("nb_report", reportOn); };
+  $("cmdReport").onchange = function(){ reportOn = this.checked; store.set("nb_report_v2", reportOn); };
   setInterval(function(){ var el=$("cmdHook"); if(el) el.textContent = hooked ? "已連線" : "未連線（客服程式尚未載入）"; }, 1000);
 
   function logRaw(msg, cls){ var d=document.createElement("div"); if(cls) d.className=cls; d.textContent="["+now()+"] "+msg; $("cmdLog").appendChild(d); $("cmdLog").scrollTop=1e9; }
