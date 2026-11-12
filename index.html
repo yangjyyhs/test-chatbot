@@ -1,95 +1,515 @@
 <!doctype html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>線上客服</title>
-  <style>
-    :root {
-      --bg: #f6f7f9;
-      --card: #ffffff;
-      --text: #1d2330;
-      --muted: #5c6577;
-      --accent: #2563eb;
-      --border: #e3e6ec;
-    }
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg: #12151b;
-        --card: #1b1f27;
-        --text: #e8ebf1;
-        --muted: #9aa3b5;
-        --accent: #60a5fa;
-        --border: #2a303b;
-      }
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
-      line-height: 1.6;
-    }
-    header {
-      background: var(--card);
-      border-bottom: 1px solid var(--border);
-      padding: 16px;
-    }
-    header .inner, main { max-width: 880px; margin: 0 auto; }
-    header h1 { margin: 0; font-size: 20px; }
-    main { padding: 32px 16px 120px; }
-    .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 24px;
-      margin-bottom: 20px;
-    }
-    .card h2 { margin-top: 0; font-size: 18px; }
-    .muted { color: var(--muted); }
-    .chat-slot {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-top: 12px;
-    }
-    footer {
-      text-align: center;
-      color: var(--muted);
-      font-size: 13px;
-      padding: 24px 16px;
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NovaBet 示範平台</title>
+<style>
+:root{
+  --bg:#0d1117;--panel:#161b24;--panel2:#1d2430;--line:#2a3342;
+  --text:#e9edf4;--muted:#8d97a8;--accent:#f5b91e;--accent-ink:#1a1300;
+  --up:#2fbf71;--down:#ef5350;--live:#ff3b5c;--blue:#4c8dff;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;font-size:14px;line-height:1.5}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+input{font:inherit}
+.demo-bar{background:var(--accent);color:var(--accent-ink);text-align:center;font-weight:600;font-size:12px;padding:6px 16px}
+header{position:sticky;top:0;z-index:20;background:rgba(13,17,23,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.top{max-width:1280px;margin:0 auto;display:flex;align-items:center;gap:16px;padding:12px 16px}
+.logo{font-weight:800;font-size:20px;letter-spacing:.5px;white-space:nowrap}
+.logo span{color:var(--accent)}
+.nav{display:flex;gap:4px;overflow-x:auto;flex:1;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.nav button{padding:8px 12px;border-radius:8px;color:var(--muted);white-space:nowrap}
+.nav button.on,.nav button:hover{color:var(--text);background:var(--panel2)}
+.wallet{display:flex;align-items:center;gap:8px;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:6px 10px;white-space:nowrap}
+.wallet small{color:var(--muted)}
+.wallet b{color:var(--accent);font-variant-numeric:tabular-nums}
+.btn{border-radius:8px;padding:8px 14px;font-weight:600}
+.btn-gold{background:var(--accent);color:var(--accent-ink)}
+.btn-ghost{border:1px solid var(--line)}
+.layout{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:220px 1fr 320px;gap:16px;padding:16px}
+aside.side,.slip{position:sticky;top:76px;align-self:start}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px}
+.side h4,.slip h4{margin:0;padding:12px 14px;font-size:13px;color:var(--muted);border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+.side ul{list-style:none;margin:0;padding:6px}
+.side li button{width:100%;display:flex;justify-content:space-between;padding:9px 10px;border-radius:8px;text-align:left}
+.side li button:hover,.side li button.on{background:var(--panel2)}
+.side li .n{color:var(--muted);font-size:12px}
+.hero{position:relative;overflow:hidden;border-radius:14px;padding:28px;background:linear-gradient(120deg,#2a1d55 0%,#1b3a6b 55%,#0f5b5b 100%);margin-bottom:16px}
+.hero h2{margin:0 0 6px;font-size:26px}
+.hero p{margin:0 0 16px;color:#cfd7ea;max-width:480px}
+.hero .ball{position:absolute;right:-30px;top:-30px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle at 35% 35%,rgba(245,185,30,.55),rgba(245,185,30,0) 65%)}
+.hero .tags{display:flex;gap:8px;flex-wrap:wrap}
+.hero .tag{background:rgba(255,255,255,.12);border-radius:999px;padding:4px 10px;font-size:12px}
+.section-h{display:flex;align-items:center;justify-content:space-between;margin:20px 0 10px}
+.section-h h3{margin:0;font-size:16px;display:flex;align-items:center;gap:8px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--live);box-shadow:0 0 0 0 rgba(255,59,92,.6);animation:pulse 1.6s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 8px rgba(255,59,92,0)}100%{box-shadow:0 0 0 0 rgba(255,59,92,0)}}
+.market-head,.match{display:grid;grid-template-columns:1fr repeat(3,72px);gap:8px;align-items:center}
+.market-head{padding:8px 14px;color:var(--muted);font-size:12px;border-bottom:1px solid var(--line)}
+.market-head span{text-align:center}
+.match{padding:12px 14px;border-bottom:1px solid var(--line)}
+.match:last-child{border-bottom:0}
+.teams{min-width:0}
+.meta{font-size:11px;color:var(--muted);display:flex;gap:8px;align-items:center;margin-bottom:4px}
+.meta .live{color:var(--live);font-weight:700}
+.team{display:flex;justify-content:space-between;gap:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.team .sc{font-weight:700;font-variant-numeric:tabular-nums}
+.odd{background:var(--panel2);border:1px solid var(--line);border-radius:8px;height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:background .15s,border-color .15s;font-variant-numeric:tabular-nums}
+.odd small{color:var(--muted);font-size:10px;line-height:1}
+.odd b{font-size:14px}
+.odd:hover{border-color:var(--accent)}
+.odd.sel{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.odd.sel small{color:var(--accent-ink)}
+.odd.up b{color:var(--up)}.odd.down b{color:var(--down)}
+.odd.sel.up b,.odd.sel.down b{color:var(--accent-ink)}
+.odd.lock{opacity:.4;pointer-events:none}
+.promos{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.promo{padding:16px;border-radius:12px;border:1px solid var(--line);background:var(--panel)}
+.promo b{display:block;font-size:15px;margin-bottom:4px}
+.promo p{margin:0;color:var(--muted);font-size:12px}
+.promo .pill{display:inline-block;margin-top:10px;font-size:11px;padding:3px 8px;border-radius:999px;background:rgba(245,185,30,.15);color:var(--accent)}
+.slip .tabs{display:flex;border-bottom:1px solid var(--line)}
+.slip .tabs button{flex:1;padding:10px;color:var(--muted);border-bottom:2px solid transparent}
+.slip .tabs button.on{color:var(--text);border-color:var(--accent)}
+.slip-body{padding:12px;max-height:calc(100vh - 300px);overflow:auto}
+.empty{color:var(--muted);text-align:center;padding:28px 8px;font-size:13px}
+.pick{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px;margin-bottom:8px}
+.pick .r1{display:flex;justify-content:space-between;gap:8px}
+.pick .r1 b{font-size:13px}
+.pick .r1 .x{color:var(--muted);font-size:16px;line-height:1}
+.pick .r2{color:var(--muted);font-size:12px;margin:2px 0 8px}
+.pick .r3{display:flex;gap:8px;align-items:center}
+.pick .r3 .o{color:var(--accent);font-weight:700;margin-left:auto;white-space:nowrap;font-variant-numeric:tabular-nums}
+.stake{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:8px;color:var(--text);padding:8px 10px}
+.stake:focus{outline:none;border-color:var(--accent)}
+.quick{display:flex;gap:6px;margin:8px 0}
+.quick button{flex:1;padding:6px 0;border:1px solid var(--line);border-radius:6px;font-size:12px;color:var(--muted)}
+.quick button:hover{color:var(--text);border-color:var(--accent)}
+.mode{display:flex;gap:6px;margin-bottom:10px}
+.mode button{flex:1;padding:6px;border-radius:6px;background:var(--panel2);color:var(--muted);font-size:12px}
+.mode button.on{background:var(--blue);color:#fff}
+.sum{border-top:1px solid var(--line);padding:12px}
+.sum .row{display:flex;justify-content:space-between;color:var(--muted);margin-bottom:6px}
+.sum .row b{color:var(--text);font-variant-numeric:tabular-nums}
+.sum .row.win b{color:var(--up)}
+.sum .btn{width:100%;padding:12px}
+.sum .btn:disabled{opacity:.4;cursor:not-allowed}
+.hist{border:1px solid var(--line);border-radius:10px;padding:10px;margin-bottom:8px;font-size:12px}
+.hist .h1{display:flex;justify-content:space-between;margin-bottom:4px}
+.badge{font-size:11px;padding:2px 8px;border-radius:999px}
+.badge.p{background:rgba(76,141,255,.15);color:var(--blue)}
+.badge.w{background:rgba(47,191,113,.15);color:var(--up)}
+.badge.l{background:rgba(239,83,80,.15);color:var(--down)}
+.hist .legs{color:var(--muted)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:var(--panel2);border:1px solid var(--line);padding:10px 16px;border-radius:10px;opacity:0;transition:.25s;z-index:50;pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.chat-card{padding:14px;margin-top:16px}
+.chat-card b{display:block;margin-bottom:4px}
+.chat-card p{margin:0 0 10px;color:var(--muted);font-size:12px}
+footer{border-top:1px solid var(--line);margin-top:24px;padding:24px 16px;color:var(--muted);font-size:12px;text-align:center}
+footer .age{display:inline-block;border:2px solid var(--down);color:var(--down);border-radius:50%;width:30px;height:30px;line-height:26px;font-weight:800;margin-bottom:8px}
+.mobile-slip{display:none}
+@media (max-width:1080px){
+  .layout{grid-template-columns:1fr 300px}
+  aside.side{display:none}
+}
+@media (max-width:760px){
+  .layout{grid-template-columns:1fr;padding:12px}
+  .slip{position:fixed;left:0;right:0;bottom:0;top:auto;z-index:30;border-radius:14px 14px 0 0;transform:translateY(100%);transition:transform .25s;max-height:80vh;display:flex;flex-direction:column}
+  .slip.open{transform:translateY(0)}
+  .slip-body{max-height:none;flex:1}
+  .mobile-slip{display:flex;position:fixed;left:16px;right:16px;bottom:16px;z-index:25;justify-content:space-between;align-items:center;padding:12px 16px;border-radius:12px;background:var(--accent);color:var(--accent-ink);font-weight:700}
+  .market-head,.match{grid-template-columns:1fr repeat(3,56px);gap:6px}
+  .promos{grid-template-columns:1fr}
+  .wallet small,.top .btn-ghost{display:none}
+  .hero{padding:20px}.hero h2{font-size:20px}
+  .chat-card{margin-bottom:72px}
+}
+</style>
 </head>
 <body>
-  <header>
-    <div class="inner"><h1>線上客服中心</h1></div>
-  </header>
+<div class="demo-bar">⚠ 示範用介面（Mock）：所有賽事、賠率與餘額皆為虛構，不涉及真實金錢，無法儲值或提款。</div>
+
+<header>
+  <div class="top">
+    <div class="logo">Nova<span>Bet</span></div>
+    <nav class="nav" id="nav">
+      <button class="on" data-sport="all">全部</button>
+      <button data-sport="football">⚽ 足球</button>
+      <button data-sport="basketball">🏀 籃球</button>
+      <button data-sport="tennis">🎾 網球</button>
+      <button data-sport="esports">🎮 電競</button>
+      <button data-sport="baseball">⚾ 棒球</button>
+    </nav>
+    <div class="wallet"><small>示範餘額</small><b id="bal">0</b></div>
+    <button class="btn btn-ghost" id="resetBtn" title="重設示範餘額">重設</button>
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="side card">
+    <h4>熱門聯賽</h4>
+    <ul id="leagues"></ul>
+  </aside>
 
   <main>
-    <section class="card">
-      <h2>需要協助嗎？</h2>
-      <p class="muted">點擊下方或畫面角落的客服按鈕，即可與客服人員即時對話。</p>
-      <div class="chat-slot">
-        <!--Begin Comm100 Live Chat Code-->
-        <div id="comm100-button-f6f9a43c-a94c-4e7f-bc50-3d4c9e298dd2"></div>
-        <!--End Comm100 Live Chat Code (button container)-->
-      </div>
+    <section class="hero">
+      <div class="ball"></div>
+      <h2>週末足球嘉年華</h2>
+      <p>串關 3 場以上，示範獎金加成 10%。所有數字僅供介面展示。</p>
+      <div class="tags"><span class="tag">滾球即時賠率</span><span class="tag">串關加成</span><span class="tag">虛擬餘額</span></div>
     </section>
 
-    <section class="card">
-      <h2>服務時間</h2>
-      <p class="muted">週一至週五 09:00 – 18:00（如客服離線，可透過聊天視窗留言）</p>
-    </section>
+    <div class="section-h"><h3><span class="dot"></span>滾球進行中</h3><span class="meta" id="liveCount"></span></div>
+    <div class="card" id="liveList"></div>
+
+    <div class="section-h"><h3>即將開賽</h3><span class="meta">賠率為歐洲盤（含本金）</span></div>
+    <div class="card" id="preList"></div>
+
+    <div class="section-h"><h3>優惠活動</h3></div>
+    <div class="promos">
+      <div class="promo"><b>新會員示範禮</b><p>體驗用虛擬點數 10,000，可隨時重設。</p><span class="pill">示範</span></div>
+      <div class="promo"><b>串關加成</b><p>3 場以上串關，潛在獎金 +10%。</p><span class="pill">自動套用</span></div>
+      <div class="promo"><b>滾球不停</b><p>賠率每數秒更新，綠色上升、紅色下降。</p><span class="pill">即時</span></div>
+    </div>
+
+    <div class="card chat-card">
+      <b>需要協助？</b>
+      <p>點擊下方或右下角的客服按鈕，與客服即時對話。</p>
+      <!--Begin Comm100 Live Chat Code-->
+      <div id="comm100-button-f6f9a43c-a94c-4e7f-bc50-3d4c9e298dd2"></div>
+      <!--End Comm100 Live Chat Code (button container)-->
+    </div>
   </main>
 
-  <footer>© 2026</footer>
+  <aside class="slip card" id="slip">
+    <div class="tabs"><button class="on" data-tab="slip">投注單 <span id="slipCount">(0)</span></button><button data-tab="hist">我的注單</button></div>
+    <div id="slipPane">
+      <div class="slip-body" id="slipBody"></div>
+      <div class="sum" id="slipSum"></div>
+    </div>
+    <div id="histPane" hidden>
+      <div class="slip-body" id="histBody"></div>
+    </div>
+  </aside>
+</div>
 
-  <!-- Comm100 Live Chat loader -->
-  <script type="text/javascript">
-    var Comm100API=Comm100API||{};(function(t){function e(e){var a=document.createElement("script"),c=document.getElementsByTagName("script")[0];a.type="text/javascript",a.async=!0,a.src=e+t.site_id,c.parentNode.insertBefore(a,c)}t.chat_buttons=t.chat_buttons||[],t.chat_buttons.push({code_plan:"f6f9a43c-a94c-4e7f-bc50-3d4c9e298dd2",div_id:"comm100-button-f6f9a43c-a94c-4e7f-bc50-3d4c9e298dd2"}),t.site_id=90009136,t.main_code_plan="f6f9a43c-a94c-4e7f-bc50-3d4c9e298dd2",e("https://vue.comm100.com/livechat.ashx?siteId="),setTimeout(function(){t.loaded||e("https://standby.comm100vue.com/livechat.ashx?siteId=")},5e3)})(Comm100API||{})
-  </script>
+<button class="mobile-slip" id="mobileSlip"><span>投注單 <span id="mCount">0</span></span><span id="mOdds">—</span></button>
+
+<footer>
+  <div class="age">18+</div>
+  <div>NovaBet 為介面示範專案，非真實博弈服務。請理性娛樂，未滿 18 歲禁止參與博弈。</div>
+  <div style="margin-top:6px">© 2026 NovaBet Demo</div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  var START_BAL = 10000;
+  var SPORT_ICON = {football:"⚽",basketball:"🏀",tennis:"🎾",esports:"🎮",baseball:"⚾"};
+  var LEAGUES = [
+    {id:"pl",name:"英格蘭超級聯賽",sport:"football"},
+    {id:"ll",name:"西班牙甲級聯賽",sport:"football"},
+    {id:"sa",name:"義大利甲級聯賽",sport:"football"},
+    {id:"bb",name:"職業籃球聯賽",sport:"basketball"},
+    {id:"tn",name:"ATP 巡迴賽",sport:"tennis"},
+    {id:"lol",name:"英雄聯盟職業賽",sport:"esports"},
+    {id:"mlb",name:"職業棒球大聯盟",sport:"baseball"}
+  ];
+  // Fictional club names for the mock
+  var MATCHES = [
+    {id:1,lg:"pl",home:"北港流星",away:"東岸雷霆",live:true,min:63,sh:1,sa:1,o:[2.45,3.10,2.85]},
+    {id:2,lg:"ll",home:"聖馬丁競技",away:"白塔聯",live:true,min:28,sh:0,sa:1,o:[3.60,3.25,2.05]},
+    {id:3,lg:"bb",home:"灣區颶風",away:"沙漠蒼鷹",live:true,min:3,sh:78,sa:74,o:[1.72,null,2.10],q:"第3節"},
+    {id:4,lg:"tn",home:"A. 洛倫佐",away:"K. 霍夫曼",live:true,min:2,sh:1,sa:0,o:[1.55,null,2.40],q:"第2盤"},
+    {id:5,lg:"lol",home:"Vortex 戰隊",away:"Nightfall",live:true,min:2,sh:1,sa:1,o:[1.95,null,1.85],q:"第3局"},
+    {id:6,lg:"pl",home:"紅堡城",away:"河谷流浪者",live:false,t:"今天 21:30",o:[1.88,3.55,4.20]},
+    {id:7,lg:"sa",home:"米蘭諾維",away:"佛羅倫提諾",live:false,t:"今天 23:45",o:[2.20,3.15,3.30]},
+    {id:8,lg:"ll",home:"巴倫西亞港",away:"高原競技",live:false,t:"明天 02:00",o:[2.65,3.00,2.75]},
+    {id:9,lg:"bb",home:"北境狼群",away:"港都海神",live:false,t:"明天 08:00",o:[1.60,null,2.35]},
+    {id:10,lg:"mlb",home:"金門巨人",away:"湖濱水手",live:false,t:"明天 09:10",o:[1.80,null,2.00]},
+    {id:11,lg:"lol",home:"Phoenix Rise",away:"Ironclad",live:false,t:"明天 18:00",o:[2.30,null,1.58]},
+    {id:12,lg:"tn",home:"M. 薩拉戈薩",away:"T. 中村",live:false,t:"明天 20:00",o:[2.05,null,1.75]}
+  ];
+  var LABELS = ["主勝","和局","客勝"];
+
+  var store = {
+    get:function(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},
+    set:function(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+  };
+  var state = {
+    bal: store.get("nb_bal", START_BAL),
+    hist: store.get("nb_hist", []),
+    picks: [],          // {mid, idx}
+    stakes: {},         // key -> stake (single mode)
+    parlayStake: 100,
+    mode: "single",
+    sport: "all",
+    league: null,
+    prev: {}
+  };
+
+  var $ = function(id){return document.getElementById(id)};
+  var fmt = function(n){return Math.round(n).toLocaleString("en-US")};
+  var lgName = function(id){for(var i=0;i<LEAGUES.length;i++) if(LEAGUES[i].id===id) return LEAGUES[i];};
+  var matchById = function(id){for(var i=0;i<MATCHES.length;i++) if(MATCHES[i].id===id) return MATCHES[i];};
+  var key = function(p){return p.mid+"-"+p.idx};
+  var isSel = function(mid,idx){return state.picks.some(function(p){return p.mid===mid&&p.idx===idx})};
+
+  function toast(msg){var t=$("toast");t.textContent=msg;t.classList.add("show");clearTimeout(t._h);t._h=setTimeout(function(){t.classList.remove("show")},2200)}
+  function save(){store.set("nb_bal",state.bal);store.set("nb_hist",state.hist)}
+
+  function visible(m){
+    var lg = lgName(m.lg);
+    if(state.league) return m.lg===state.league;
+    return state.sport==="all" || lg.sport===state.sport;
+  }
+
+  function renderLeagues(){
+    var html = "";
+    LEAGUES.forEach(function(l){
+      var n = MATCHES.filter(function(m){return m.lg===l.id}).length;
+      html += '<li><button data-lg="'+l.id+'" class="'+(state.league===l.id?"on":"")+'"><span>'+SPORT_ICON[l.sport]+" "+l.name+'</span><span class="n">'+n+'</span></button></li>';
+    });
+    $("leagues").innerHTML = html;
+  }
+
+  function clock(m){
+    var sp = lgName(m.lg).sport;
+    if(sp==="football") return m.min+"'";
+    return m.q || "";
+  }
+
+  function matchRow(m){
+    var lg = lgName(m.lg);
+    var meta = m.live
+      ? '<span class="live">● LIVE '+clock(m)+'</span><span>'+lg.name+'</span>'
+      : '<span>'+m.t+'</span><span>'+lg.name+'</span>';
+    var sc = function(v){return m.live?'<span class="sc">'+v+'</span>':""};
+    var cells = "";
+    m.o.forEach(function(o,i){
+      if(o===null){cells += '<div class="odd lock"><small>—</small><b>—</b></div>';return;}
+      var k = m.id+"-"+i, cls = "odd";
+      if(isSel(m.id,i)) cls += " sel";
+      if(state.prev[k] && state.prev[k]!==o) cls += o>state.prev[k]?" up":" down";
+      cells += '<button class="'+cls+'" data-mid="'+m.id+'" data-idx="'+i+'"><small>'+LABELS[i]+'</small><b>'+o.toFixed(2)+'</b></button>';
+    });
+    return '<div class="match"><div class="teams"><div class="meta">'+meta+'</div>'
+      + '<div class="team"><span>'+SPORT_ICON[lg.sport]+" "+m.home+'</span>'+sc(m.sh)+'</div>'
+      + '<div class="team"><span>&nbsp;&nbsp;&nbsp;&nbsp;'+m.away+'</span>'+sc(m.sa)+'</div></div>'+cells+'</div>';
+  }
+
+  function renderMatches(){
+    var head = '<div class="market-head"><span style="text-align:left">賽事</span><span>1</span><span>X</span><span>2</span></div>';
+    var live = MATCHES.filter(function(m){return m.live&&visible(m)});
+    var pre = MATCHES.filter(function(m){return !m.live&&visible(m)});
+    $("liveList").innerHTML = live.length ? head+live.map(matchRow).join("") : '<div class="empty">目前沒有滾球賽事</div>';
+    $("preList").innerHTML = pre.length ? head+pre.map(matchRow).join("") : '<div class="empty">此分類沒有即將開賽的賽事</div>';
+    $("liveCount").textContent = live.length+" 場";
+  }
+
+  function pickOdd(p){return matchById(p.mid).o[p.idx]}
+  function parlayOdds(){return state.picks.reduce(function(a,p){return a*pickOdd(p)},1)}
+  function boost(){return state.picks.length>=3?1.10:1}
+
+  function renderSlip(){
+    var n = state.picks.length;
+    $("slipCount").textContent = "("+n+")";
+    $("mCount").textContent = n;
+    $("mOdds").textContent = n ? (state.mode==="parlay"&&n>1 ? "@ "+parlayOdds().toFixed(2) : n+" 注") : "—";
+    if(!n){
+      $("slipBody").innerHTML = '<div class="empty">點選賠率即可加入投注單</div>';
+      $("slipSum").innerHTML = "";
+      return;
+    }
+    var parlay = state.mode==="parlay" && n>1;
+    var html = '<div class="mode"><button data-mode="single" class="'+(!parlay?"on":"")+'">單注</button><button data-mode="parlay" class="'+(parlay?"on":"")+'" '+(n<2?"disabled":"")+'>串關</button></div>';
+    state.picks.forEach(function(p){
+      var m = matchById(p.mid), k = key(p);
+      html += '<div class="pick"><div class="r1"><b>'+LABELS[p.idx]+(p.idx===0?" · "+m.home:p.idx===2?" · "+m.away:"")+'</b><button class="x" data-rm="'+k+'" aria-label="移除">×</button></div>'
+        + '<div class="r2">'+m.home+" vs "+m.away+(m.live?" · 滾球":"")+'</div>'
+        + '<div class="r3">'+(parlay?"":'<input class="stake" inputmode="numeric" data-stake="'+k+'" value="'+(state.stakes[k]||"")+'" placeholder="投注金額">')+'<span class="o">@ '+pickOdd(p).toFixed(2)+'</span></div></div>';
+    });
+    if(parlay){
+      html += '<input class="stake" inputmode="numeric" id="pStake" value="'+(state.parlayStake||"")+'" placeholder="串關金額">';
+      html += '<div class="quick">'+[100,500,1000,5000].map(function(v){return '<button data-q="'+v+'">+'+fmt(v)+'</button>'}).join("")+'</div>';
+    }
+    $("slipBody").innerHTML = html;
+    renderSum();
+  }
+
+  function totals(){
+    var parlay = state.mode==="parlay" && state.picks.length>1;
+    if(parlay){
+      var s = +state.parlayStake||0;
+      return {stake:s, win:s*parlayOdds()*boost(), parlay:true};
+    }
+    var st=0, w=0;
+    state.picks.forEach(function(p){var s=+state.stakes[key(p)]||0;st+=s;w+=s*pickOdd(p)});
+    return {stake:st, win:w, parlay:false};
+  }
+
+  function renderSum(){
+    var t = totals(), over = t.stake>state.bal;
+    var html = '';
+    if(t.parlay){
+      html += '<div class="row"><span>串關賠率</span><b>'+parlayOdds().toFixed(2)+'</b></div>';
+      if(boost()>1) html += '<div class="row"><span>串關加成</span><b>+10%</b></div>';
+    }
+    html += '<div class="row"><span>總投注</span><b>'+fmt(t.stake)+'</b></div>'
+      + '<div class="row win"><span>潛在獎金</span><b>'+fmt(t.win)+'</b></div>'
+      + (over?'<div class="row" style="color:var(--down)">示範餘額不足</div>':'');
+    // Keep the button element stable so live odds refreshes never swallow a click
+    var rows = $("sumRows"), btn = $("placeBtn");
+    if(!rows || !btn){
+      $("slipSum").innerHTML = '<div id="sumRows"></div><button class="btn btn-gold" id="placeBtn">確認下注（示範）</button>';
+      rows = $("sumRows"); btn = $("placeBtn");
+    }
+    rows.innerHTML = html;
+    btn.disabled = t.stake<=0 || over;
+  }
+
+  function renderHist(){
+    if(!state.hist.length){$("histBody").innerHTML='<div class="empty">尚無注單</div>';return;}
+    $("histBody").innerHTML = state.hist.slice().reverse().map(function(h){
+      var b = h.status==="win"?'<span class="badge w">贏 +'+fmt(h.win)+'</span>':h.status==="lose"?'<span class="badge l">輸</span>':'<span class="badge p">待結算</span>';
+      return '<div class="hist"><div class="h1"><b>'+(h.parlay?"串關 "+h.legs.length+" 場":"單注")+' · '+fmt(h.stake)+'</b>'+b+'</div><div class="legs">'+h.legs.join("<br>")+'</div><div class="legs">@ '+h.odds.toFixed(2)+' · '+h.time+'</div></div>';
+    }).join("");
+  }
+
+  function renderBal(){$("bal").textContent = fmt(state.bal)}
+
+  function place(){
+    var t = totals();
+    if(t.stake<=0||t.stake>state.bal) return;
+    var now = new Date(), time = now.getHours()+":"+String(now.getMinutes()).padStart(2,"0");
+    var legOf = function(p){var m=matchById(p.mid);return m.home+" vs "+m.away+" — "+LABELS[p.idx]};
+    if(t.parlay){
+      state.hist.push({id:Date.now(),parlay:true,legs:state.picks.map(legOf),stake:t.stake,odds:parlayOdds()*boost(),win:t.win,status:"pending",time:time});
+    } else {
+      state.picks.forEach(function(p,i){
+        var s = +state.stakes[key(p)]||0; if(!s) return;
+        state.hist.push({id:Date.now()+i,parlay:false,legs:[legOf(p)],stake:s,odds:pickOdd(p),win:s*pickOdd(p),status:"pending",time:time});
+      });
+    }
+    state.bal -= t.stake;
+    state.picks = []; state.stakes = {};
+    save(); renderBal(); renderSlip(); renderMatches(); renderHist();
+    toast("示範注單已送出，約 15 秒後自動結算");
+    setTimeout(settle, 15000);
+  }
+
+  // Random settlement weighted by implied probability
+  function settle(){
+    var changed = false;
+    state.hist.forEach(function(h){
+      if(h.status!=="pending") return;
+      var won = Math.random() < (1/h.odds)*0.95;
+      h.status = won?"win":"lose";
+      if(won) state.bal += h.win;
+      changed = true;
+      toast(won?"🎉 注單獲勝 +"+fmt(h.win):"注單未中，再接再厲");
+    });
+    if(changed){save();renderBal();renderHist()}
+  }
+
+  // Live ticker: odds drift, clocks advance, occasional goals
+  function tick(){
+    MATCHES.forEach(function(m){
+      m.o.forEach(function(o,i){
+        if(o===null) return;
+        state.prev[m.id+"-"+i] = o;
+        if(m.live && Math.random()<0.45){
+          var n = o*(1+(Math.random()-0.5)*0.08);
+          m.o[i] = Math.max(1.05, Math.round(n*100)/100);
+        }
+      });
+      if(!m.live) return;
+      var sp = lgName(m.lg).sport;
+      if(sp==="football"){
+        if(m.min<90) m.min++;
+        if(Math.random()<0.04){ if(Math.random()<0.5) m.sh++; else m.sa++; toast("⚽ 進球！"+m.home+" "+m.sh+" - "+m.sa+" "+m.away); }
+      } else if(sp==="basketball"){
+        m.sh += Math.floor(Math.random()*4); m.sa += Math.floor(Math.random()*4);
+      }
+    });
+    renderMatches();
+    if(state.picks.length){ renderSlipOddsOnly(); }
+  }
+  function renderSlipOddsOnly(){
+    // keep focus inside inputs: only update odds labels + summary
+    var els = document.querySelectorAll("#slipBody .pick .o");
+    state.picks.forEach(function(p,i){ if(els[i]) els[i].textContent = "@ "+pickOdd(p).toFixed(2); });
+    renderSum();
+    $("mOdds").textContent = state.mode==="parlay"&&state.picks.length>1 ? "@ "+parlayOdds().toFixed(2) : state.picks.length+" 注";
+  }
+
+  // Events
+  document.addEventListener("click", function(e){
+    var t = e.target.closest("button"); if(!t) return;
+    if(t.dataset.mid){
+      var mid=+t.dataset.mid, idx=+t.dataset.idx;
+      var at = -1; state.picks.forEach(function(p,i){if(p.mid===mid&&p.idx===idx) at=i});
+      if(at>=0){ state.picks.splice(at,1); }
+      else {
+        state.picks = state.picks.filter(function(p){return p.mid!==mid}); // one pick per match
+        state.picks.push({mid:mid,idx:idx});
+      }
+      if(state.picks.length<2) state.mode="single";
+      renderMatches(); renderSlip(); return;
+    }
+    if(t.dataset.rm){
+      state.picks = state.picks.filter(function(p){return key(p)!==t.dataset.rm});
+      delete state.stakes[t.dataset.rm];
+      if(state.picks.length<2) state.mode="single";
+      renderMatches(); renderSlip(); return;
+    }
+    if(t.dataset.mode){ state.mode=t.dataset.mode; renderSlip(); return; }
+    if(t.dataset.q){ state.parlayStake=(+state.parlayStake||0)+(+t.dataset.q); renderSlip(); return; }
+    if(t.dataset.sport){
+      state.sport=t.dataset.sport; state.league=null;
+      document.querySelectorAll("#nav button").forEach(function(b){b.classList.toggle("on",b===t)});
+      renderLeagues(); renderMatches(); return;
+    }
+    if(t.dataset.lg){
+      state.league = state.league===t.dataset.lg?null:t.dataset.lg;
+      renderLeagues(); renderMatches(); return;
+    }
+    if(t.dataset.tab){
+      document.querySelectorAll(".slip .tabs button").forEach(function(b){b.classList.toggle("on",b===t)});
+      $("slipPane").hidden = t.dataset.tab!=="slip";
+      $("histPane").hidden = t.dataset.tab!=="hist";
+      return;
+    }
+    if(t.id==="placeBtn"){ place(); return; }
+    if(t.id==="resetBtn"){ state.bal=START_BAL; state.hist=[]; save(); renderBal(); renderHist(); toast("示範餘額已重設為 "+fmt(START_BAL)); return; }
+    if(t.id==="mobileSlip"){ $("slip").classList.toggle("open"); return; }
+  });
+  document.addEventListener("input", function(e){
+    var el = e.target;
+    if(el.dataset && el.dataset.stake!==undefined){
+      el.value = el.value.replace(/[^0-9]/g,"");
+      state.stakes[el.dataset.stake] = el.value; renderSum();
+    } else if(el.id==="pStake"){
+      el.value = el.value.replace(/[^0-9]/g,"");
+      state.parlayStake = el.value; renderSum();
+    }
+  });
+
+  renderBal(); renderLeagues(); renderMatches(); renderSlip(); renderHist();
+  if(state.hist.some(function(h){return h.status==="pending"})) setTimeout(settle, 3000);
+  setInterval(tick, 4000);
+})();
+</script>
+
+<!-- Comm100 Live Chat loader -->
+<script type="text/javascript">
+  var Comm100API=Comm100API||{};(function(t){function e(e){var a=document.createElement("script"),c=document.getElementsByTagName("script")[0];a.type="text/javascript",a.async=!0,a.src=e+t.site_id,c.parentNode.insertBefore(a,c)}t.chat_buttons=t.chat_buttons||[],t.chat_buttons.push({code_plan:"f6f9a43c-a94c-4e7f-bc50-3d4c9e298dd2",div_id:"comm100-button-f6f9a43c-a94c-4e7f-bc50-3d4c9e298dd2"}),t.site_id=90009136,t.main_code_plan="f6f9a43c-a94c-4e7f-bc50-3d4c9e298dd2",e("https://vue.comm100.com/livechat.ashx?siteId="),setTimeout(function(){t.loaded||e("https://standby.comm100vue.com/livechat.ashx?siteId=")},5e3)})(Comm100API||{})
+</script>
 </body>
 </html>
