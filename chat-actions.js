@@ -296,11 +296,24 @@
     }catch(e){}
   }
   window.addEventListener("nb:change", pushVars);
+  // keep tabs in sync (a chat link may open the page in a new tab)
+  window.addEventListener("storage", function(e){
+    if(["nb_bal","nb_hist","nb_tx","nb_last_action"].indexOf(e.key)<0) return;
+    S.bal = store.get("nb_bal", S.bal); S.hist = store.get("nb_hist", S.hist);
+    tx = store.get("nb_tx", tx); lastAction = store.get("nb_last_action", lastAction);
+    NB.renderBal(); NB.renderHist(); pushVars();
+  });
 
   /* ---------- listen to the chat ---------- */
   var seen = {}, ignoreNextVisitor = false;
   function fresh(text){ var k = String(text), t = Date.now(); if(seen[k] && t-seen[k]<8000) return false; seen[k]=t; return true; }
+  function clean(t){
+    if(typeof t!=="string") return "";
+    var doc = new DOMParser().parseFromString(t.replace(/<br\s*\/?>/gi,"\n"), "text/html");
+    return (doc.body.textContent||"").replace(/ /g," ");
+  }
   function handle(text, via){
+    text = clean(text);
     if(typeof text!=="string" || !fresh(via+text)) return;
     parseAll(text).forEach(function(c){ c.via = via; enqueue(c); });
   }
@@ -311,6 +324,7 @@
     try{
       Comm100API.on("livechat.chat.agent.input", function(agent, content){
         var who = (agent && (agent.name||agent.nickname)) || "客服";
+        logRaw("收到客服訊息（"+who+"）："+String(typeof content==="string"?content:JSON.stringify(content)).slice(0,120));
         handle(typeof content==="string"?content:"", "線上客服（"+who+"）");
       });
       Comm100API.on("livechat.chat.visitor.input", function(content){
