@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>線上客服</title>
+  <style>
+    :root {
+      --bg: #f6f7f9;
+      --card: #ffffff;
+      --text: #1d2330;
+      --muted: #5c6577;
+      --accent: #2563eb;
+      --border: #e3e6ec;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #12151b;
+        --card: #1b1f27;
+        --text: #e8ebf1;
+        --muted: #9aa3b5;
+        --accent: #60a5fa;
+        --border: #2a303b;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+      line-height: 1.6;
+    }
+    header {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      padding: 16px;
+    }
+    header .inner, main { max-width: 880px; margin: 0 auto; }
+    header h1 { margin: 0; font-size: 20px; }
+    main { padding: 32px 16px 120px; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+    .card h2 { margin-top: 0; font-size: 18px; }
+    .muted { color: var(--muted); }
+    .chat-slot {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+      padding: 24px 16px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="inner"><h1>線上客服中心</h1></div>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>需要協助嗎？</h2>
+      <p class="muted">點擊下方或畫面角落的客服按鈕，即可與客服人員即時對話。</p>
+      <div class="chat-slot">
+        <!--Begin Comm100 Live Chat Code-->
+        <div id="comm100-button-f6f9a43c-a94c-4e7f-bc50-3d4c9e298dd2"></div>
+        <!--End Comm100 Live Chat Code (button container)-->
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>服務時間</h2>
+      <p class="muted">週一至週五 09:00 – 18:00（如客服離線，可透過聊天視窗留言）</p>
+    </section>
+  </main>
+
+  <footer>© 2026</footer>
+
+  <!-- Comm100 Live Chat loader -->
+  <script type="text/javascript">
+    var Comm100API=Comm100API||{};(function(t){function e(e){var a=document.createElement("script"),c=document.getElementsByTagName("script")[0];a.type="text/javascript",a.async=!0,a.src=e+t.site_id,c.parentNode.insertBefore(a,c)}t.chat_buttons=t.chat_buttons||[],t.chat_buttons.push({code_plan:"f6f9a43c-a94c-4e7f-bc50-3d4c9e298dd2",div_id:"comm100-button-f6f9a43c-a94c-4e7f-bc50-3d4c9e298dd2"}),t.site_id=90009136,t.main_code_plan="f6f9a43c-a94c-4e7f-bc50-3d4c9e298dd2",e("https://vue.comm100.com/livechat.ashx?siteId="),setTimeout(function(){t.loaded||e("https://standby.comm100vue.com/livechat.ashx?siteId=")},5e3)})(Comm100API||{})
+  </script>
+</body>
+</html>
