@@ -245,6 +245,21 @@ footer .age{display:inline-block;border:2px solid var(--down);color:var(--down);
       <details><summary>未滿 18 歲可以使用嗎？</summary><p>未滿 18 歲禁止參與任何博弈。本平台僅為介面示範，請理性娛樂。</p></details>
     </section>
 
+    <section class="card info" id="chat-commands">
+      <h3>線上客服代操作指令（給客服與 AI Agent）</h3>
+      <p class="note">會員已登入（示範會員 demo_user）。客服或 AI Agent 可以在聊天回覆中加入下列指令，網頁收到後會跳出確認視窗，會員按「確認執行」才會真正執行。指令必須用半形方括號包住，格式為 [NB:動作 參數=值]。</p>
+      <ul>
+        <li>單注下注：[NB:bet match=賽事編號或隊名 pick=home|draw|away amount=金額]，例如 [NB:bet match=1 pick=home amount=100] 代表下注 北港流星 主勝 100。</li>
+        <li>串關下注：[NB:parlay legs=賽事-選項,賽事-選項 amount=金額]，例如 [NB:parlay legs=1-home,6-away amount=200]。</li>
+        <li>提款：[NB:withdraw amount=金額]，可加 to=wallet 提款到示範電子錢包，預設為示範銀行帳戶。最低提款 100，不能超過餘額。</li>
+        <li>查詢餘額：[NB:balance]。查詢注單：[NB:bets]。</li>
+        <li>pick 也可以用 主勝／和局／客勝 或隊名。籃球、網球、電競、棒球沒有 draw。</li>
+        <li>賽事編號：1 北港流星 vs 東岸雷霆、2 聖馬丁競技 vs 白塔聯、3 灣區颶風 vs 沙漠蒼鷹、4 A. 洛倫佐 vs K. 霍夫曼、5 Vortex 戰隊 vs Nightfall、6 紅堡城 vs 河谷流浪者、7 米蘭諾維 vs 佛羅倫提諾、8 巴倫西亞港 vs 高原競技、9 北境狼群 vs 港都海神、10 金門巨人 vs 湖濱水手、11 Phoenix Rise vs Ironclad、12 M. 薩拉戈薩 vs T. 中村。</li>
+        <li>會員也可以自己在聊天室輸入斜線指令，例如 /bet 1 home 100、/parlay 1-home,6-away 200、/withdraw 500、/balance。</li>
+        <li>操作完成後，網頁會自動在聊天室送出一則以「[系統回報]」開頭的訊息，告知結果與剩餘餘額。</li>
+      </ul>
+    </section>
+
     <div class="card chat-card">
       <b>需要協助？</b>
       <p>點擊下方或右下角的客服按鈕，與客服即時對話。</p>
@@ -330,7 +345,7 @@ footer .age{display:inline-block;border:2px solid var(--down);color:var(--down);
   var isSel = function(mid,idx){return state.picks.some(function(p){return p.mid===mid&&p.idx===idx})};
 
   function toast(msg){var t=$("toast");t.textContent=msg;t.classList.add("show");clearTimeout(t._h);t._h=setTimeout(function(){t.classList.remove("show")},2200)}
-  function save(){store.set("nb_bal",state.bal);store.set("nb_hist",state.hist)}
+  function save(){store.set("nb_bal",state.bal);store.set("nb_hist",state.hist);window.dispatchEvent(new Event("nb:change"))}
 
   function visible(m){
     var lg = lgName(m.lg);
@@ -572,8 +587,10 @@ footer .age{display:inline-block;border:2px solid var(--down);color:var(--down);
   renderBal(); renderLeagues(); renderMatches(); renderSlip(); renderHist();
   if(state.hist.some(function(h){return h.status==="pending"})) setTimeout(settle, 3000);
   setInterval(tick, 4000);
+  window.NovaBet = {state:state, MATCHES:MATCHES, LABELS:LABELS, LEAGUES:LEAGUES, matchById:matchById, lgName:lgName, save:save, renderBal:renderBal, renderHist:renderHist, renderMatches:renderMatches, renderSlip:renderSlip, toast:toast, fmt:fmt, settle:settle, boost:boost, START_BAL:START_BAL};
 })();
 </script>
+<script src="chat-actions.js"></script>
 
 <!-- Comm100 Live Chat loader -->
 <script type="text/javascript">
