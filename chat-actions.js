@@ -187,6 +187,7 @@
   function parseAll(text){
     var out = [], re = /\[\s*NB\s*:\s*(\w+)([^\]]*)\]/gi, m;
     while((m = re.exec(text))) out.push({op:m[1].toLowerCase(), args:kv(m[2]), raw:m[0]});
+    var lr = /#nb=([A-Za-z0-9=&%,._~:+\-]+)/g, lm; while((lm = lr.exec(text))){ var q = {}; ("nb="+lm[1]).split("&").forEach(function(p){ var i=p.indexOf("="); if(i>0){ try{ q[decodeURIComponent(p.slice(0,i))]=decodeURIComponent(p.slice(i+1)); }catch(e){} } }); var lop=q.nb; delete q.nb; if(lop) out.push({op:lop.toLowerCase(), args:q, raw:"#nb="+lm[1]}); }
     if(out.length) return out;
     var s = String(text).trim();
     var sm = /^\/(bet|parlay|withdraw|balance|bets)\b\s*(.*)$/i.exec(s);
